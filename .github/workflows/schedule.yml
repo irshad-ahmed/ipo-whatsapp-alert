@@ -1,0 +1,28 @@
+name: Daily IPO WhatsApp Alert
+
+on:
+  schedule:
+    - cron: '30 4 * * *'  # 10:00 AM IST = 4:30 AM UTC
+  workflow_dispatch:
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run IPO WhatsApp Alert Script
+        env:
+          INSTANCE_ID: ${{ secrets.INSTANCE_ID }}
+          API_TOKEN: ${{ secrets.API_TOKEN }}
+          TO_PHONE: ${{ secrets.TO_PHONE }}
+        run: python ipo_whatsapp_alert.py
