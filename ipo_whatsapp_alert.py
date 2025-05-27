@@ -4,17 +4,17 @@ from datetime import datetime
 
 INSTANCE_ID = os.environ['INSTANCE_ID']
 API_TOKEN = os.environ['API_TOKEN']
-TO_PHONE = os.environ['TO_PHONE']
+TO_PHONES = os.environ['TO_PHONES'].split(',')  # Expect comma-separated phone numbers
 
-def send_whatsapp_message(message):
+def send_whatsapp_message(message, phone_number):
     url = f"https://api.green-api.com/waInstance{INSTANCE_ID}/sendMessage/{API_TOKEN}"
     payload = {
-        "chatId": f"{TO_PHONE}@c.us",
+        "chatId": f"{phone_number}@c.us",
         "message": message
     }
     response = requests.post(url, json=payload)
-    print("Status:", response.status_code)
-    print("Response:", response.text)
+    print(f"Status for {phone_number}:", response.status_code)
+    print(f"Response for {phone_number}:", response.text)
 
 ipo_url = "https://webnodejs.investorgain.com/cloud/report/data-read/331/1/5/2025/2025-26/0/all"
 response = requests.get(ipo_url)
@@ -48,4 +48,5 @@ else:
             "-----------------------------\n"
         )
 
-send_whatsapp_message(message)
+for phone_number in TO_PHONES:
+    send_whatsapp_message(message, phone_number)
