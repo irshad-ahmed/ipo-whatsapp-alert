@@ -4,7 +4,7 @@ from datetime import datetime
 
 INSTANCE_ID = os.environ['INSTANCE_ID']
 API_TOKEN = os.environ['API_TOKEN']
-TO_PHONES = os.environ['TO_PHONES'].split(',')  # Expect comma-separated phone numbers
+TO_PHONES = os.environ['TO_PHONE'].split(',')  # Expect comma-separated phone numbers
 
 def send_whatsapp_message(message, phone_number):
     url = f"https://api.green-api.com/waInstance{INSTANCE_ID}/sendMessage/{API_TOKEN}"
